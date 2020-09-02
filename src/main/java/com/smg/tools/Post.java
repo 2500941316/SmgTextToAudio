@@ -13,7 +13,7 @@ import java.net.URL;
 public class Post {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static void main(String[] args) throws Exception {
+    public static void main() throws Exception {
         String text = "企业按照树状结构进行展示和管理，实现层级的管理";
         String base64Str = Base64Tool.fileToBase64(text);
         String PcmMD5FileName="test1";
