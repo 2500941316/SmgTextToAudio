@@ -11,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 @Component
 public class TextToRedioServiceImpl implements TextToRedioInterface {
@@ -23,6 +20,9 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 
     @Override
     public String textToRedio(TextInfo textInfo) {
+        FileOutputStream fout = null;
+        BufferedOutputStream bfo = null;
+        DataOutputStream out = null;
         mt_scylla mt = new mt_scylla();
         if (mt.SCYMTInitializeEx(null) != 0) {
             throw new BusinessException(Exceptions.SERVER_INITIAL_ERROR.getEcode());
@@ -98,11 +98,13 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         int[] recStatus = new int[1];
         int[] len = new int[1];
         recStatus[0] = 1;
+
         try {
-            FileOutputStream fout = new FileOutputStream(Constance.pcmPath + textInfo.getPcmMD5FileName());
-            BufferedOutputStream bfo = new BufferedOutputStream(fout);
-            DataOutputStream out = new DataOutputStream(bfo);
+            fout = new FileOutputStream(Constance.pcmPath + textInfo.getPcmMD5FileName());
+            bfo = new BufferedOutputStream(fout);
+            out = new DataOutputStream(bfo);
             byte[] audioBuffGet = new byte[1024 * 1024];
+
             while (recStatus[0] != 0 && 0 == errorCod[0]) {
                 len[0] = 0;
                 mt.SCYMTAudioGetEx(session_id, audioBuffGet, len, recStatus,
@@ -113,11 +115,17 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
                     out.flush();
                 }
             }
-            fout.close();
-            bfo.close();
-            out.close();
+
         } catch (Exception e) {
             throw new BusinessException(Exceptions.SERVER_IO_ERROR.getEcode());
+        } finally {
+            try {
+                fout.close();
+                bfo.close();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         logger.info("音频文件转换成功");
         // 结束一路会话
@@ -132,8 +140,6 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
             throw new BusinessException(Exceptions.SERVER_UNINITIALIZEEX_ERROR.getEmsg());
         }
         logger.info("逆初始化成功");
-
         return Constance.pcmPath + textInfo.getPcmMD5FileName();
     }
-
 }

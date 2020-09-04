@@ -52,6 +52,7 @@
 
     </dependencies>
 
+
     <repositories>
         <repository>
             <id>aliyun-repos</id>
@@ -72,7 +73,9 @@
     </pluginRepositories>
 
     <build>
+
         <plugins>
+
             <!-- 指定启动类，将依赖打成外部jar包 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
