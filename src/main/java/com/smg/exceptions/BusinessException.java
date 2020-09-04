@@ -1,4 +1,4 @@
-package com.smg.Exceptions;
+package com.smg.exceptions;
 
 public class BusinessException extends RuntimeException {
 

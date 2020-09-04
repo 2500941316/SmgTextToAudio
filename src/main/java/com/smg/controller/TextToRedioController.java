@@ -1,8 +1,8 @@
 package com.smg.controller;
 
-import com.smg.Pojo.TextInfo;
+import com.smg.pojo.TextInfo;
 import com.smg.service.TextToRedioInterface;
-import com.smg.tools.Post;
+import com.smg.tools.PostUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +25,6 @@ public class TextToRedioController {
     @GetMapping("sendPost")
     public void sendPost() throws Exception {
 
-         Post.main();
+         PostUtils.main();
     }
 }

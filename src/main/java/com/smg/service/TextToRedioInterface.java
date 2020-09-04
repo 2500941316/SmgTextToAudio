@@ -1,6 +1,6 @@
 package com.smg.service;
 
-import com.smg.Pojo.TextInfo;
+import com.smg.pojo.TextInfo;
 
 public interface TextToRedioInterface {
 

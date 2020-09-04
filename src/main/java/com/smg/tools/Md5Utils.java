@@ -2,8 +2,13 @@ package com.smg.tools;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class Md5 {
-    public final static String md5key = "CXY05QUeJct3iGn9";
+public class Md5Utils {
+
+    private Md5Utils() {
+        throw new IllegalStateException("Md5Utils class");
+    }
+
+    public static final String md5Key = "CXY05QUeJct3iGn9";
 
     /**
      * MD5方法
@@ -13,10 +18,9 @@ public class Md5 {
      * @return 密文
      * @throws Exception
      */
-    public static String md5(String text, String key) throws Exception {
+    public static String md5(String text, String key) {
         //加密后的字符串
-        String encodeStr = DigestUtils.md5Hex(text + key);
-        return encodeStr;
+        return  DigestUtils.md5Hex(text + key);
     }
 
     /**
@@ -28,12 +32,9 @@ public class Md5 {
      * @return true/false
      * @throws Exception
      */
-    public static boolean verify(String text, String key, String md5) throws Exception {
+    public static boolean verify(String text, String key, String md5)  {
         //根据传入的密钥进行验证
         String md5Text = md5(text, key);
-        if (md5Text.equalsIgnoreCase(md5)) {
-            return true;
-        }
-        return false;
+        return md5Text.equalsIgnoreCase(md5);
     }
 }

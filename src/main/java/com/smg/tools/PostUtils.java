@@ -1,7 +1,8 @@
 package com.smg.tools;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smg.Pojo.TextInfo;
+import com.smg.exceptions.BusinessException;
+import com.smg.pojo.TextInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,23 +13,27 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Post {
+public class PostUtils {
     private static ObjectMapper objectMapper = new ObjectMapper();
-    private static Logger logger = LoggerFactory.getLogger(Post.class);
+    private static Logger logger = LoggerFactory.getLogger(PostUtils.class);
+
+    private PostUtils() {
+        throw new IllegalStateException("PostUtils class");
+    }
 
     public static void main() throws Exception {
         String text = "企业按照树状结构进行展示和管理，实现层级的管理";
         String base64Str = Base64Tool.fileToBase64(text);
-        String PcmMD5FileName = "test1";
+        String pcmMD5FileName = "test1";
         Integer spd = 0;
         String time = System.currentTimeMillis() + "";
         String salt = "C6K02DUeJct3VGn7";
-        String ed = PcmMD5FileName + spd + time;
-        String key = Md5.md5(ed, salt);
+        String ed = pcmMD5FileName + spd + time;
+        String key = Md5Utils.md5(ed, salt);
 
         TextInfo textInfo = new TextInfo();
         textInfo.setText(base64Str);
-        textInfo.setPcmMD5FileName(PcmMD5FileName);
+        textInfo.setPcmMD5FileName(pcmMD5FileName);
         textInfo.setSpd(spd);
         textInfo.setDate(time);
         textInfo.setKey(key);
@@ -36,13 +41,13 @@ public class Post {
 
         String json = objectMapper.writeValueAsString(textInfo);
         String res = sendPost("http://localhost:8080/textToRedio", json);
-        System.out.println(res);
+       logger.info("请求输出："+res);
     }
 
     public static String sendPost(String url, String json) {
         PrintWriter out = null;
         BufferedReader in = null;
-        String result = "";
+        StringBuilder result=new StringBuilder();
         try {
             URL realUrl = new URL(url);
             // 打开和URL之间的连接
@@ -66,11 +71,11 @@ public class Post {
             in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
             while ((line = in.readLine()) != null) {
-                result += line;
+                result.append(line);
             }
             //将返回结果转换为字符串
         } catch (Exception e) {
-            throw new RuntimeException("远程通路异常" + e.toString());
+            throw new BusinessException("远程通路异常" + e.toString());
         }
         // 使用finally块来关闭输出流、输入流
         finally {
@@ -85,6 +90,6 @@ public class Post {
                 logger.error(ex.getMessage());
             }
         }
-        return result;
+        return result.toString();
     }
 }

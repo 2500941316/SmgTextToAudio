@@ -1,5 +1,6 @@
 package com.smg.config;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,23 +32,13 @@ public class RequestWrapper extends HttpServletRequestWrapper {
                 stringBuilder.append("");
             }
         } catch (IOException ex) {
-
+            logger.error(ex.getMessage());
         } finally {
             if (inputStream != null) {
-                try {
-                    inputStream.close();
-                }
-                catch (IOException e) {
-                    logger.error(e.getMessage());
-                }
+             IOUtils.closeQuietly(inputStream);
             }
             if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                }
-                catch (IOException e) {
-                    logger.error(e.getMessage());
-                }
+                IOUtils.closeQuietly(bufferedReader);
             }
         }
         body = stringBuilder.toString();

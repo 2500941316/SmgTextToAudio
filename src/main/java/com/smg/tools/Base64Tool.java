@@ -3,11 +3,12 @@ package com.smg.tools;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class Base64Tool {
+
+    private Base64Tool() {
+        throw new IllegalStateException("Base64Tool class");
+    }
 
     //进行base64编码
     public static String fileToBase64(String fileSrc) {
@@ -19,7 +20,7 @@ public class Base64Tool {
 
 
 
-    public static byte[] Base64ToFile(String imgStr) {
+    public static byte[] base64ToFile(String imgStr) {
 
         BASE64Decoder decoder = new BASE64Decoder();
         try {
@@ -33,7 +34,7 @@ public class Base64Tool {
 // 生成jpg图片
             return b;
         } catch (Exception e) {
-            return null;
+            return new byte[]{};
         }
     }
 }

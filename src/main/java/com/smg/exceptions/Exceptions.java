@@ -1,4 +1,4 @@
-package com.smg.Exceptions;
+package com.smg.exceptions;
 
 public enum Exceptions {
     SERVER_CONNECTION_ERROR                ("0001","网络连接异常"),

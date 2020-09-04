@@ -1,4 +1,4 @@
-package com.smg.Exceptions;
+package com.smg.exceptions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,7 @@ import java.net.BindException;
 @RestControllerAdvice()
 public class ExceptionAdvice {
 
-    public final static Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
+    private Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
 
     @ExceptionHandler
     @ResponseBody
@@ -21,39 +21,51 @@ public class ExceptionAdvice {
         logger.error(message);
         switch (message) {
             case "0001": {
-                return Exceptions.SERVER_CONNECTION_ERROR.getEmsg();
+                message= Exceptions.SERVER_CONNECTION_ERROR.getEmsg();
+                break;
             }
             case "0002": {
-                return Exceptions.SERVER_PARAMSETTING_ERROR.getEmsg();
+                message= Exceptions.SERVER_PARAMSETTING_ERROR.getEmsg();
+                break;
             }
             case "0003": {
-                return Exceptions.SERVER_TEXT_ERROR.getEmsg();
+                message= Exceptions.SERVER_TEXT_ERROR.getEmsg();
+                break;
             }
             case "0004": {
-                return Exceptions.SERVER_SESSIONEND_ERROR.getEmsg();
+                message= Exceptions.SERVER_SESSIONEND_ERROR.getEmsg();
+                break;
             }
             case "0005": {
-                return Exceptions.SERVER_UNINITIALIZEEX_ERROR.getEmsg();
+                message= Exceptions.SERVER_UNINITIALIZEEX_ERROR.getEmsg();
+                break;
             }
             case "0006": {
-                return Exceptions.SERVER_PARAMS_ERROR.getEmsg();
+                message= Exceptions.SERVER_PARAMS_ERROR.getEmsg();
+                break;
             }
             case "0007": {
-                return Exceptions.SERVER_HTTP_ERROR.getEmsg();
+                message= Exceptions.SERVER_HTTP_ERROR.getEmsg();
+                break;
             }
             case "0008": {
-                return Exceptions.SERVER_INITIAL_ERROR.getEmsg();
+                message= Exceptions.SERVER_INITIAL_ERROR.getEmsg();
+                break;
             }
             case "0009": {
-                return Exceptions.SERVER_IO_ERROR.getEmsg();
+                message= Exceptions.SERVER_IO_ERROR.getEmsg();
+                break;
             }
             case "0010": {
-                return Exceptions.SERVER_AUTH_ERROR.getEmsg();
+                message= Exceptions.SERVER_AUTH_ERROR.getEmsg();
+                break;
             }
             default: {
-                return Exceptions.SERVER_OTHER_ERROR.getEmsg();
+                message= Exceptions.SERVER_OTHER_ERROR.getEmsg();
+                break;
             }
         }
+        return message;
     }
 
     @ExceptionHandler
@@ -65,7 +77,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler
     @ResponseBody
-    public Object TypeExceptionHandler(HttpRequestMethodNotSupportedException e) {
+    public Object typeExceptionHandler(HttpRequestMethodNotSupportedException e) {
         logger.error(e.getMessage());
         return Exceptions.SERVER_HTTP_ERROR.getEmsg();
     }
