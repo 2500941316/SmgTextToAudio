@@ -46,7 +46,13 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         }
         //如果不等于0则再次尝试
         while (errorCode[0] != 0) {
+
+            try {
+                Thread.sleep(500);
                 session_id = mt.SCYMTSessionBeginEx(ssbparam, errorCode, null);
+            } catch (InterruptedException e) {
+                logger.error(e.getMessage());
+            }
         }
         logger.info("Session设置成功");
 
@@ -75,7 +81,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
                 textInfo.setText(new String(decode));
                 textlen = textInfo.getText().getBytes("UTF-8").length;
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
             int textlength = textInfo.getText().length();
 

@@ -2,6 +2,8 @@ package com.smg.tools;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smg.Pojo.TextInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,18 +14,19 @@ import java.net.URL;
 
 public class Post {
     private static ObjectMapper objectMapper = new ObjectMapper();
+    private static Logger logger = LoggerFactory.getLogger(Post.class);
 
     public static void main() throws Exception {
         String text = "企业按照树状结构进行展示和管理，实现层级的管理";
         String base64Str = Base64Tool.fileToBase64(text);
-        String PcmMD5FileName="test1";
-        Integer spd=0;
-        String time=System.currentTimeMillis()+"";
-        String salt="C6K02DUeJct3VGn7";
+        String PcmMD5FileName = "test1";
+        Integer spd = 0;
+        String time = System.currentTimeMillis() + "";
+        String salt = "C6K02DUeJct3VGn7";
         String ed = PcmMD5FileName + spd + time;
         String key = Md5.md5(ed, salt);
 
-        TextInfo textInfo=new TextInfo();
+        TextInfo textInfo = new TextInfo();
         textInfo.setText(base64Str);
         textInfo.setPcmMD5FileName(PcmMD5FileName);
         textInfo.setSpd(spd);
@@ -79,7 +82,7 @@ public class Post {
                     in.close();
                 }
             } catch (IOException ex) {
-                ex.printStackTrace();
+                logger.error(ex.getMessage());
             }
         }
         return result;

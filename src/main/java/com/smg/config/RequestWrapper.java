@@ -39,7 +39,6 @@ public class RequestWrapper extends HttpServletRequestWrapper {
                 }
                 catch (IOException e) {
                     logger.error(e.getMessage());
-                    e.printStackTrace();
                 }
             }
             if (bufferedReader != null) {
@@ -48,7 +47,6 @@ public class RequestWrapper extends HttpServletRequestWrapper {
                 }
                 catch (IOException e) {
                     logger.error(e.getMessage());
-                    e.printStackTrace();
                 }
             }
         }
