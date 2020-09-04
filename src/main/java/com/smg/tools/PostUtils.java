@@ -1,5 +1,6 @@
 package com.smg.tools;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smg.exceptions.BusinessException;
 import com.smg.pojo.TextInfo;
@@ -21,7 +22,7 @@ public class PostUtils {
         throw new IllegalStateException("PostUtils class");
     }
 
-    public static void main() throws Exception {
+    public static void main()  {
         String text = "企业按照树状结构进行展示和管理，实现层级的管理";
         String base64Str = Base64Tool.fileToBase64(text);
         String pcmMD5FileName = "test1";
@@ -39,7 +40,13 @@ public class PostUtils {
         textInfo.setKey(key);
 
 
-        String json = objectMapper.writeValueAsString(textInfo);
+        String json = null;
+        try {
+            json = objectMapper.writeValueAsString(textInfo);
+        } catch (JsonProcessingException e) {
+           logger.error(e.getMessage());
+        }
+
         String res = sendPost("http://localhost:8080/textToRedio", json);
        logger.info("请求输出："+res);
     }

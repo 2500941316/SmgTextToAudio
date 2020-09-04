@@ -22,10 +22,12 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 
     @Override
     public String textToRedio(TextInfo textInfo) {
+
+        mt_scylla mt = new mt_scylla();
         FileOutputStream fout = null;
         BufferedOutputStream bfo = null;
         DataOutputStream out = null;
-        mt_scylla mt = new mt_scylla();
+
         if (mt.SCYMTInitializeEx(null) != 0) {
             throw new BusinessException(Exceptions.SERVER_INITIAL_ERROR.getEcode());
         }

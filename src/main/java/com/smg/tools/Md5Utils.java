@@ -8,7 +8,6 @@ public class Md5Utils {
         throw new IllegalStateException("Md5Utils class");
     }
 
-    public static final String md5Key = "CXY05QUeJct3iGn9";
 
     /**
      * MD5方法
