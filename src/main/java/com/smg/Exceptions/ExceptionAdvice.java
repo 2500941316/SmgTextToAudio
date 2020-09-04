@@ -18,7 +18,6 @@ public class ExceptionAdvice {
     @ResponseBody
     public Object exceptionHandler(Exception e) {
         String message = e.getMessage();
-        e.printStackTrace();
         logger.error(message);
         switch (message) {
             case "0001": {

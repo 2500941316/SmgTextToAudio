@@ -1,5 +1,8 @@
 package com.smg.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +11,7 @@ import java.io.*;
 
 public class RequestWrapper extends HttpServletRequestWrapper {
     private final String body;
+    private Logger logger= LoggerFactory.getLogger(RequestWrapper.class);
 
     public RequestWrapper(HttpServletRequest request) {
         super(request);
@@ -34,6 +38,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
                     inputStream.close();
                 }
                 catch (IOException e) {
+                    logger.error(e.getMessage());
                     e.printStackTrace();
                 }
             }
@@ -42,6 +47,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
                     bufferedReader.close();
                 }
                 catch (IOException e) {
+                    logger.error(e.getMessage());
                     e.printStackTrace();
                 }
             }
