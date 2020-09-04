@@ -20,50 +20,50 @@ public class ExceptionAdvice {
         String message = e.getMessage();
         logger.error(message);
         switch (message) {
-            case "0001": {
+            case "0001":
                 message= Exceptions.SERVER_CONNECTION_ERROR.getEmsg();
                 break;
-            }
-            case "0002": {
+
+            case "0002":
                 message= Exceptions.SERVER_PARAMSETTING_ERROR.getEmsg();
                 break;
-            }
-            case "0003": {
+
+            case "0003":
                 message= Exceptions.SERVER_TEXT_ERROR.getEmsg();
                 break;
-            }
-            case "0004": {
+
+            case "0004":
                 message= Exceptions.SERVER_SESSIONEND_ERROR.getEmsg();
                 break;
-            }
-            case "0005": {
+
+            case "0005":
                 message= Exceptions.SERVER_UNINITIALIZEEX_ERROR.getEmsg();
                 break;
-            }
-            case "0006": {
+
+            case "0006":
                 message= Exceptions.SERVER_PARAMS_ERROR.getEmsg();
                 break;
-            }
-            case "0007": {
+
+            case "0007":
                 message= Exceptions.SERVER_HTTP_ERROR.getEmsg();
                 break;
-            }
-            case "0008": {
+
+            case "0008":
                 message= Exceptions.SERVER_INITIAL_ERROR.getEmsg();
                 break;
-            }
-            case "0009": {
+
+            case "0009":
                 message= Exceptions.SERVER_IO_ERROR.getEmsg();
                 break;
-            }
-            case "0010": {
+
+            case "0010":
                 message= Exceptions.SERVER_AUTH_ERROR.getEmsg();
                 break;
-            }
-            default: {
+
+            default:
                 message= Exceptions.SERVER_OTHER_ERROR.getEmsg();
                 break;
-            }
+
         }
         return message;
     }
