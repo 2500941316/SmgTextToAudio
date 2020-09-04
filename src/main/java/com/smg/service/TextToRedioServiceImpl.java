@@ -7,6 +7,7 @@ import com.smg.Exceptions.Exceptions;
 import com.smg.Pojo.Constance;
 import com.smg.Pojo.TextInfo;
 import com.smg.tools.Base64Tool;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -115,24 +116,21 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
                     out.flush();
                 }
             }
-
         } catch (Exception e) {
             throw new BusinessException(Exceptions.SERVER_IO_ERROR.getEcode());
         } finally {
-            try {
-                fout.close();
-                bfo.close();
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            IOUtils.closeQuietly(out);
+            IOUtils.closeQuietly(fout);
+            IOUtils.closeQuietly(bfo);
         }
+
         logger.info("音频文件转换成功");
         // 结束一路会话
         int endret = mt.SCYMTSessionEndEx(session_id);
         if (endret != 0) {
             throw new BusinessException(Exceptions.SERVER_SESSIONEND_ERROR.getEmsg());
         }
+
         logger.info("任务结束成功");
         // 逆初始化
         int uniret = mt.SCYMTUninitializeEx(null);
