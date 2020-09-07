@@ -39,17 +39,12 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         mt.SCYMTAuthLogin(parL, null);
         logger.info("login成功");
 
-
-       // String ssbparam = "vid=65040,auf=4,aue=raw,svc=tts,type=1,uid=660Y5r,appid=pc20onli,url=" + inputIp;
-        String ssbparam = "svc=iat,auf=audio/L16;rate=8000,aue=raw,type=1,uid=660Y5r,appid=pc20onli,url="
-                + inputIp + ",extend_params={\"params\":\"seginfo=1,vspp=1,online=off\"}";
+//        String ssbparam = "svc=iat,auf=audio/L16;rate=8000,aue=raw,type=1,uid=660Y5r,appid=pc20onli,url="
+//                + inputIp + ",extend_params={\"params\":\"seginfo=1,vspp=1,online=off\"}";
+        String ssbparam = "vid=65040,auf=4,aue=raw,svc=tts,type=1,uid=660Y5r,appid=pc20onli,url=" + inputIp;
         int[] errorCode = new int[1];
         String sessionId = mt.SCYMTSessionBeginEx(ssbparam, errorCode, null);
-
         if (errorCode[0] != 0) {
-            logger.info("ssbparam的值是"+ssbparam);
-            logger.info("errorCode的值是"+errorCode[0]);
-            logger.info("sessionId的值："+sessionId);
             throw new BusinessException(Exceptions.SERVER_CONNECTION_ERROR.getEcode());
         }
 

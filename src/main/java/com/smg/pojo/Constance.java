@@ -4,6 +4,6 @@ public class Constance {
     private Constance(){
         throw new IllegalStateException("Constance class");
     }
-    public static final String IP="10.27.141.39:1028";
+    public static final String IP="10.27.143.33:1028";
     public static final String PCMPATH="/opt/";
 }
