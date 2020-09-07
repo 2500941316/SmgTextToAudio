@@ -22,6 +22,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 
     @Override
     public String textToRedio(TextInfo textInfo) {
+        System.out.println(System.getProperty("java.library.path"));
 
         mt_scylla mt = new mt_scylla();
         FileOutputStream fout = null;
