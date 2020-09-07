@@ -42,7 +42,9 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         String ssbparam = "vid=65040,auf=4,aue=raw,svc=tts,type=1,uid=660Y5r,appid=pc20onli,url=" + inputIp;
         int[] errorCode = new int[1];
         String sessionId = mt.SCYMTSessionBeginEx(ssbparam, errorCode, null);
-
+        logger.info("ssbparam的值是"+ssbparam);
+        logger.info("errorCode的值是"+errorCode[0]);
+        logger.info("sessionId的值："+sessionId);
         if (errorCode[0] != 0) {
             throw new BusinessException(Exceptions.SERVER_CONNECTION_ERROR.getEcode());
         }
