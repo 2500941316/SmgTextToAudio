@@ -18,7 +18,7 @@ public class ExceptionAdvice {
     @ResponseBody
     public Object exceptionHandler(Exception e) {
         String message = e.getMessage();
-        logger.error(message);
+
         switch (message) {
             case "0001":
                 message= Exceptions.SERVER_CONNECTION_ERROR.getEmsg();
@@ -65,6 +65,7 @@ public class ExceptionAdvice {
                 break;
 
         }
+        logger.error(message);
         return message;
     }
 
