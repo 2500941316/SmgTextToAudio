@@ -33,13 +33,13 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         logger.info("客户端初始化成功");
 
         //文本输入ip
-        String inputIp = Constance.IP + ":" + Constance.PORT;
+        String inputIp = Constance.IP;
         String parL = "appid=pc20onli,sn=c" + ",url=" + inputIp;
         //对文本输入服务器进行登录
         mt.SCYMTAuthLogin(parL, null);
         logger.info("login成功");
-
         String ssbparam = "vid=65040,auf=4,aue=raw,svc=tts,type=1,uid=660Y5r,appid=pc20onli,url=" + inputIp;
+        //String ssbparam = "vid=65040,auf=4,aue=raw,svc=tts,type=1,uid=660Y5r,appid=pc20onli,url=" + inputIp;
         int[] errorCode = new int[1];
         String sessionId = mt.SCYMTSessionBeginEx(ssbparam, errorCode, null);
         logger.info("ssbparam的值是"+ssbparam);
