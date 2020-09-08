@@ -152,7 +152,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         String mp3FileMane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + ".mp3";
         // 命令
        // String pcmToMp3 = "ffmpeg -y -f s16be -ac 2 -ar 16000 -acodec pcm_s16le -i " + pcmFile + " " + Constance.MP3OUTPUTPATH + mp3FileMane;
-        String pcmToMp3 = "ffmpeg -y -f s16be -ac 2 -ar 16000 -acodec pcm_s16le -i /opt/english.pcm  /opt/newEnglish.mp3" ;
+        String pcmToMp3 = "ffmpeg -y -f s16be -ac 2 -ar 16000 -acodec pcm_s16le -i /home/soft/english.pcm  /home/soft/newEnglish.mp3" ;
         Process process = null;
         try {
             logger.info("开始启动转码");
