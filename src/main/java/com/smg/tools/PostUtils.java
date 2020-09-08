@@ -26,7 +26,7 @@ public class PostUtils {
         String text = "企业按照树状结构进行展示和管理，实现层级的管理";
         String base64Str = Base64Tool.fileToBase64(text);
         String pcmMD5FileName = "test1.pcm";
-        Integer spd = -500;
+        Integer spd = 0;
         String time = System.currentTimeMillis() + "";
         String salt = "C6K02DUeJct3VGn7";
         String ed = pcmMD5FileName + spd + time;
