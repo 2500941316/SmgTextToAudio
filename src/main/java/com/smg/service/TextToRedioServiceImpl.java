@@ -39,7 +39,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         mt.SCYMTAuthLogin(parL, null);
         logger.info("login成功");
 
-        String ssbparam = "vid=65040,auf=4,aue=raw,svc=tts,type=1,uid=660Y5r,appid=pc20onli,url=" + inputIp;
+        String ssbparam = "vid=60030,auf=4,aue=raw,svc=tts,type=1,uid=660Y5r,appid=pc20onli,url=" + inputIp;
         int[] errorCode = new int[1];
         String sessionId = mt.SCYMTSessionBeginEx(ssbparam, errorCode, null);
         if (errorCode[0] != 0) {
