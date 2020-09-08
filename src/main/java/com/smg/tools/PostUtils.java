@@ -31,9 +31,13 @@ public class PostUtils {
         String salt = "C6K02DUeJct3VGn7";
         String ed = pcmMD5FileName + spd + time;
         String key = Md5Utils.md5(ed, salt);
+        String vid="60030";
+        String vol="5";
 
         TextInfo textInfo = new TextInfo();
         textInfo.setText(base64Str);
+        textInfo.setVid(vid);
+        textInfo.setVol(vol);
         textInfo.setPcmMD5FileName(pcmMD5FileName);
         textInfo.setSpd(spd);
         textInfo.setDate(time);

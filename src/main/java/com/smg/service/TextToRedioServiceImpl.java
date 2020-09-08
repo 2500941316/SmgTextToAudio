@@ -39,7 +39,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         mt.SCYMTAuthLogin(parL, null);
         logger.info("login成功");
 
-        String ssbparam = "vid=60030,auf=4,aue=raw,svc=tts,type=1,uid=660Y5r,appid=pc20onli,url=" + inputIp;
+        String ssbparam = "vid="+textInfo.getVid()+",auf=4,aue=raw,svc=tts,type=1,uid=660Y5r,appid=pc20onli,url=" + inputIp;
         int[] errorCode = new int[1];
         String sessionId = mt.SCYMTSessionBeginEx(ssbparam, errorCode, null);
         if (errorCode[0] != 0) {
@@ -62,7 +62,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         if (ifSet) {
             int[] errcode = new int[1];
             byte[] reason = new byte[100];
-            String params = "spd=" + textInfo.getSpd();
+            String params = "spd=" + textInfo.getSpd()+",vol="+textInfo.getVol();
             int ret = mt.SCYTTSSetParams(sessionId, params, errcode, reason);
             if (0 != ret) {
                 throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
