@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class TextToRedioServiceImpl implements TextToRedioInterface {
 
-    public  static final Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
+    public static final Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
 
     @Override
     public String textToRedio(TextInfo textInfo) {
@@ -39,8 +39,6 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         mt.SCYMTAuthLogin(parL, null);
         logger.info("login成功");
 
-//        String ssbparam = "svc=iat,auf=audio/L16;rate=8000,aue=raw,type=1,uid=660Y5r,appid=pc20onli,url="
-//                + inputIp + ",extend_params={\"params\":\"seginfo=1,vspp=1,online=off\"}";
         String ssbparam = "vid=65040,auf=4,aue=raw,svc=tts,type=1,uid=660Y5r,appid=pc20onli,url=" + inputIp;
         int[] errorCode = new int[1];
         String sessionId = mt.SCYMTSessionBeginEx(ssbparam, errorCode, null);
@@ -60,7 +58,6 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         }
         logger.info("Session设置成功");
 
-        // 添加SCYTTSSetParams和SCYTTSGetParam函数
         boolean ifSet = true;
         if (ifSet) {
             int[] errcode = new int[1];
@@ -138,6 +135,50 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
             throw new BusinessException(Exceptions.SERVER_UNINITIALIZEEX_ERROR.getEmsg());
         }
         logger.info("逆初始化成功");
+
+        logger.info("开始转码");
+
+        try {
+            pcmToMp3(Constance.PCMPATH + textInfo.getPcmMD5FileName());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        logger.info("转码成功");
         return Constance.PCMPATH + textInfo.getPcmMD5FileName();
+    }
+
+    public static void pcmToMp3(String pcmFile) {
+        //先获取mp3对应的文件名称
+        String mp3FileMane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + ".mp3";
+        // 命令
+       // String pcmToMp3 = "ffmpeg -y -f s16be -ac 2 -ar 16000 -acodec pcm_s16le -i " + pcmFile + " " + Constance.MP3OUTPUTPATH + mp3FileMane;
+        String pcmToMp3 = "ffmpeg -y -f s16be -ac 2 -ar 16000 -acodec pcm_s16le -i /opt/english.pcm  /opt/newEnglish.mp3" ;
+        Process process = null;
+        try {
+            logger.info("开始启动转码");
+            process = Runtime.getRuntime().exec(pcmToMp3);
+
+            if (null == process) {
+                return;
+            }
+            process.waitFor();
+            try (
+
+                    InputStream errorStream = process.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
+                    BufferedReader br = new BufferedReader(inputStreamReader)) {
+                String line = null;
+                StringBuffer context = new StringBuffer();
+                while ((line = br.readLine()) != null) {
+                    context.append(line);
+                }
+                logger.info("pcm读取成功");
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                process.destroy();
+            }
+        } catch (Exception e) {
+        }
     }
 }

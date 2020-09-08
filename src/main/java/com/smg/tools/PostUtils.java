@@ -2,7 +2,6 @@ package com.smg.tools;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smg.controller.Play;
 import com.smg.exceptions.BusinessException;
 import com.smg.pojo.Constance;
 import com.smg.pojo.TextInfo;
@@ -52,7 +51,6 @@ public class PostUtils {
         String res = sendPost("http://localhost:8080/textToRedio", json);
        logger.info("请求输出："+res);
 
-        Play.palyPCM(Constance.PCMPATH+"test1.pcm",System.currentTimeMillis());
     }
 
     public static String sendPost(String url, String json) {

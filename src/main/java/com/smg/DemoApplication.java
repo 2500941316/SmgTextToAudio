@@ -10,7 +10,7 @@ import java.io.IOException;
 @ServletComponentScan(basePackages = "com.smg.config")
 public class DemoApplication {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
 
