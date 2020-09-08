@@ -3,7 +3,6 @@ package com.smg.tools;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smg.exceptions.BusinessException;
-import com.smg.pojo.Constance;
 import com.smg.pojo.TextInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ public class PostUtils {
         String text = "企业按照树状结构进行展示和管理，实现层级的管理";
         String base64Str = Base64Tool.fileToBase64(text);
         String pcmMD5FileName = "test1.pcm";
-        Integer spd = 0;
+        Integer spd = -300;
         String time = System.currentTimeMillis() + "";
         String salt = "C6K02DUeJct3VGn7";
         String ed = pcmMD5FileName + spd + time;
