@@ -140,7 +140,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
         if (pcmToMp3(pcmFile)) {
             logger.info("转码成功");
-            return "http://mp3File/"+textInfo.getPcmMD5FileName() + ".mp3";
+            return Constance.downLoadPath+textInfo.getPcmMD5FileName() + ".mp3";
         } else {
             throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
         }
@@ -148,8 +148,8 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 
     public static boolean pcmToMp3(String pcmFile) {
         //先获取mp3对应的文件名称
-        String mp3FileNane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + ".mp3";
-        String pcmToMp3 = "ffmpeg -y -f s16be -ac 1 -ar 16000 -acodec pcm_s16le -i " + pcmFile + " " + mp3FileNane;
+        //String mp3FileNane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + ".mp3";
+        String pcmToMp3 = "ffmpeg -y -f s16be -ac 1 -ar 16000 -acodec pcm_s16le -i " + pcmFile + " " + pcmFile+".mp3";
         Process process = null;
         try {
             logger.info("开始启动转码");
