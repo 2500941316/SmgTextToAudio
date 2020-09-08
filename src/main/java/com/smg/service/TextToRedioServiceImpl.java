@@ -140,8 +140,8 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
         if (pcmToMp3(pcmFile)) {
             logger.info("转码成功");
-            String mp3File = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + ".mp3";
-            return mp3File;
+            return  Constance.downLoadPath+textInfo.getPcmMD5FileName().substring(0, pcmFile.lastIndexOf('.')) + ".mp3";
+
         } else {
             throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
         }
