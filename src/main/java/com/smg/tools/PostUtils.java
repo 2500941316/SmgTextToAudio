@@ -23,7 +23,7 @@ public class PostUtils {
     }
 
     public static void main()  {
-        String text = "企业按照树状结构进行展示和管理，实现层级的管理";
+        String text = "在安装包中提供了开发实例程序，这个例程演示了各个函数的用法。";
         String base64Str = Base64Tool.fileToBase64(text);
         String pcmMD5FileName = "test1.pcm";
         Integer spd = 0;

@@ -11,6 +11,7 @@ public enum Exceptions {
     SERVER_INITIAL_ERROR                ("0008","初始化异常"),
     SERVER_IO_ERROR                ("0009","输入输出异常"),
     SERVER_AUTH_ERROR                ("0010","身份认证异常"),
+    SERVER_FFMPEG_ERROR                ("0011","转码失败"),
     SERVER_OTHER_ERROR            ("1099","未知异常");//枚举类如果写方法的话，此处需要写分号
 
     private String ecode;

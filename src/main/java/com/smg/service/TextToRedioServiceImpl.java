@@ -137,29 +137,26 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         logger.info("逆初始化成功");
 
         logger.info("开始转码");
-
-        try {
-            pcmToMp3(Constance.PCMPATH + textInfo.getPcmMD5FileName());
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+        String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
+        if (pcmToMp3(pcmFile)) {
+            logger.info("转码成功");
+            return "http://mp3File/"+textInfo.getPcmMD5FileName().substring(0, pcmFile.lastIndexOf('.')) + ".mp3";
+        } else {
+            throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
         }
-        logger.info("转码成功");
-        return Constance.PCMPATH + textInfo.getPcmMD5FileName();
     }
 
-    public static void pcmToMp3(String pcmFile) {
+    public static boolean pcmToMp3(String pcmFile) {
         //先获取mp3对应的文件名称
         String mp3FileMane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + ".mp3";
-        // 命令
-       // String pcmToMp3 = "ffmpeg -y -f s16be -ac 2 -ar 16000 -acodec pcm_s16le -i " + pcmFile + " " + Constance.MP3OUTPUTPATH + mp3FileMane;
-        String pcmToMp3 = "ffmpeg -y -f s16be -ac 2 -ar 16000 -acodec pcm_s16le -i /home/soft/english.pcm  /home/soft/newEnglish.mp3" ;
+        String pcmToMp3 = "ffmpeg -y -f s16be -ac 2 -ar 16000 -acodec pcm_s16le -i " + pcmFile + " " + Constance.MP3OUTPUTPATH + mp3FileMane;
         Process process = null;
         try {
             logger.info("开始启动转码");
             process = Runtime.getRuntime().exec(pcmToMp3);
 
             if (null == process) {
-                return;
+                return false;
             }
             process.waitFor();
             try (
@@ -174,11 +171,15 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
                 }
                 logger.info("pcm读取成功");
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("转码失败");
+                return false;
             } finally {
                 process.destroy();
             }
+            return true;
         } catch (Exception e) {
+            logger.error("转码失败");
+            return false;
         }
     }
 }

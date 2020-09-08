@@ -60,6 +60,10 @@ public class ExceptionAdvice {
                 message= Exceptions.SERVER_AUTH_ERROR.getEmsg();
                 break;
 
+            case "0011":
+                message= Exceptions.SERVER_FFMPEG_ERROR.getEmsg();
+                break;
+
             default:
                 message= Exceptions.SERVER_OTHER_ERROR.getEmsg();
                 break;
