@@ -149,7 +149,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
     public static boolean pcmToMp3(String pcmFile) {
         //先获取mp3对应的文件名称
         String mp3FileNane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + ".mp3";
-        String pcmToMp3 = "ffmpeg -y -f s16be -ac 2 -ar 16000 -acodec pcm_s16le -i " + pcmFile + " " + mp3FileNane;
+        String pcmToMp3 = "ffmpeg -y -f s16be -ac 1 -ar 16000 -acodec pcm_s16le -i " + pcmFile + " " + mp3FileNane;
         Process process = null;
         try {
             logger.info("开始启动转码");
