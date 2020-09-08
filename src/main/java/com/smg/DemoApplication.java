@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
-import java.io.IOException;
 
 @SpringBootApplication
 @ServletComponentScan(basePackages = "com.smg.config")
