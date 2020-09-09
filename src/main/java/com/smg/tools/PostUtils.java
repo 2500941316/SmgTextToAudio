@@ -62,10 +62,8 @@ public class PostUtils {
         final String salt = "C6K02DUeJct3VGn7";
         final String vid = "60030";
         final String vol = "5";
-        ExecutorService pool = Executors.newCachedThreadPool();
         for (int i = 0; i < 6; i++) {
-
-            pool.execute(new Runnable() {
+            Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     System.out.println(Thread.currentThread().getName() + "创建了");
@@ -92,8 +90,8 @@ public class PostUtils {
                     logger.info("文件下载地址为：" + res);
                 }
             });
+            thread.start();
         }
-        pool.shutdown();
     }
 
     public static void shellFfmpeg() {
@@ -170,8 +168,8 @@ public class PostUtils {
 
     public static boolean pcmToMp3(String pcmFile) {
         //先获取mp3对应的文件名称
-        String mp3FileNane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + Thread.currentThread().getName()+System.currentTimeMillis() + ".mp3";
-        logger.info("mp3生成地址："+mp3FileNane);
+        String mp3FileNane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + Thread.currentThread().getName() + System.currentTimeMillis() + ".mp3";
+        logger.info("mp3生成地址：" + mp3FileNane);
         String pcmToMp3 = "ffmpeg -y -f s16be -ac 1 -ar 16000 -acodec pcm_s16le -i " + pcmFile + " " + mp3FileNane;
         Process process = null;
         try {
