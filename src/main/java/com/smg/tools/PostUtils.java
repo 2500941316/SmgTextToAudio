@@ -62,8 +62,8 @@ public class PostUtils {
         final String salt = "C6K02DUeJct3VGn7";
         final String vid = "60030";
         final String vol = "5";
-        ExecutorService pool = Executors.newFixedThreadPool(4);
-        for (int i = 0; i < 5; i++) {
+        ExecutorService pool = Executors.newCachedThreadPool();
+        for (int i = 0; i < 6; i++) {
 
             pool.execute(new Runnable() {
                 @Override
