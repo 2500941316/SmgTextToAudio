@@ -151,7 +151,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 //        }
     }
 
-    public static boolean pcmToMp32(String pcmFile) {
+    private synchronized static boolean pcmToMp32(String pcmFile) {
         //先获取mp3对应的文件名称
         String mp3FileNane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + Thread.currentThread().getName() + System.currentTimeMillis() + ".mp3";
         logger.info("mp3生成地址：" + mp3FileNane);
@@ -191,7 +191,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
     }
 
 
-    public static boolean pcmToMp3(String pcmFile) {
+    public synchronized static boolean pcmToMp3(String pcmFile) {
         //先获取mp3对应的文件名称
         String mp3FileNane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + Thread.currentThread().getName() + System.currentTimeMillis() + ".mp3";
         logger.info("mp3生成地址：" + mp3FileNane);
