@@ -13,8 +13,8 @@ public class Test {
                 "-ar", "16000",                          // Video bit-rate limit of 0 (see above URL)
                 "-acodec", "pcm_s16le",                  // Copy audio using `libvorbis` audio encoder (see https://xiph.org/vorbis/)
                 "-threads", "4",                      // Use 4 threads.
-                "-i", "C:\\Users\\Administrator\\Desktop\\test.pcm",        // input video
-                "C:\\Users\\Administrator\\Desktop\\newTt.mp3"
+                "-i", "/opt/src/products/java.pcm",        // input video
+                "/opt/src/products/java"+System.currentTimeMillis()+"mp3"
         };
         ProcessBuilder pb = new ProcessBuilder(ffmpegArgs);
         Process process = null;

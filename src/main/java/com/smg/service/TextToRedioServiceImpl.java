@@ -182,8 +182,6 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
             } catch (IOException e) {
                 logger.error("转码失败");
                 return false;
-            } finally {
-                process.destroy();
             }
             return true;
         } catch (Exception e) {
