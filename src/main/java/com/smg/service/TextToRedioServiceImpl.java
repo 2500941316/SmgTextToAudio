@@ -142,7 +142,8 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         logger.info("开始转码");
         String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
         //pcmToMp32(Constance.PCMPATH + "java.pcm");
-        TestBash.main();
+        TestBash testBash=new TestBash();
+        testBash.main();
         return "success";
 //        if (pcmToMp3(pcmFile)) {
 //            logger.info("转码成功");
