@@ -63,7 +63,7 @@ public class PostUtils {
         final String vid = "60030";
         final String vol = "5";
         ExecutorService pool = Executors.newFixedThreadPool(4);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
 
             pool.execute(new Runnable() {
                 @Override
@@ -93,6 +93,7 @@ public class PostUtils {
                 }
             });
         }
+        pool.shutdown();
     }
 
     public static void shellFfmpeg() {
