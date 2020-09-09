@@ -62,21 +62,6 @@ public class PostUtils {
         }
     }
 
-    public static void shellFfmpeg() {
-        final ExecutorService pool = Executors.newCachedThreadPool();
-        for (int i = 0; i < 10; i++) {
-            pool.execute(new Runnable() {
-                @Override
-                public void run() {
-                    logger.info("新线程开启" + Thread.currentThread());
-                    pcmToMp3(Constance.PCMPATH + "java.pcm");
-
-                    logger.info("转码结束");
-                }
-            });
-        }
-    }
-
 
     public static String sendPost(String url, String json) {
         PrintWriter out = null;
