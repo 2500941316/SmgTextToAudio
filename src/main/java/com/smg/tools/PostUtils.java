@@ -30,9 +30,9 @@ public class PostUtils {
         final String salt = "C6K02DUeJct3VGn7";
         final String vid = "60030";
         final String vol = "5";
-        final ExecutorService pool = Executors.newSingleThreadExecutor();
+
         for (int i = 0; i < 6; i++) {
-            pool.execute(new Runnable() {
+            new Thread(new Runnable() {
                 @Override
                 public void run() {
                     System.out.println(Thread.currentThread().getName() + "创建了");
@@ -58,7 +58,7 @@ public class PostUtils {
                     String res = sendPost("http://localhost:8080/textToRedio", json);
                     logger.info("文件下载地址为：" + res);
                 }
-            });
+            }).start();
         }
     }
 
