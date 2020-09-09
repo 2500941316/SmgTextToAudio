@@ -30,8 +30,8 @@ public class PostUtils {
         final String salt = "C6K02DUeJct3VGn7";
         final String vid = "60030";
         final String vol = "5";
-        final ExecutorService pool = Executors.newCachedThreadPool();
-        for (int i = 0; i < 10; i++) {
+        final ExecutorService pool = Executors.newSingleThreadExecutor();
+        for (int i = 0; i < 6; i++) {
             pool.execute(new Runnable() {
                 @Override
                 public void run() {
