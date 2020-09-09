@@ -139,20 +139,22 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         logger.info("逆初始化成功");
 
         logger.info("开始转码");
-        String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
-        if (pcmToMp3(pcmFile)) {
-            logger.info("转码成功");
-            return  Constance.downLoadPath+textInfo.getPcmMD5FileName().substring(0,textInfo.getPcmMD5FileName().lastIndexOf('.')) + ".mp3";
-
-        } else {
-            throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
-        }
+       // String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
+        pcmToMp3();
+        return "success";
+//        if (pcmToMp3(pcmFile)) {
+//            logger.info("转码成功");
+//            return  Constance.downLoadPath+textInfo.getPcmMD5FileName().substring(0,textInfo.getPcmMD5FileName().lastIndexOf('.')) + ".mp3";
+//
+//        } else {
+//            throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
+//        }
     }
 
-    public  boolean pcmToMp3(String pcmFile) {
+    private static void pcmToMp3() {
         //先获取mp3对应的文件名称
-        String mp3FileNane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + ".mp3";
-        String pcmToMp3 = "ffmpeg -y -f s16be -ac 1 -ar 16000 -acodec pcm_s16le -i " + pcmFile + " " +mp3FileNane;
+        String mp3FileNane ="/opt/src/products/java"+Thread.currentThread().getName()+System.currentTimeMillis()+ ".mp3";
+        String pcmToMp3 = "ffmpeg -y -f s16be -ac 1 -ar 16000 -acodec pcm_s16le -i " + "/opt/src/products/java.pcm" + " " +mp3FileNane;
         Process process = null;
         try {
             logger.info("开始启动转码");
@@ -160,7 +162,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
             logger.info("转码命令生成成功");
 
             if (null == process) {
-                return false;
+                return;
             }
             process.waitFor();
             try (
@@ -177,14 +179,11 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
                 logger.info("pcm读取成功");
             } catch (IOException e) {
                 logger.error("转码失败");
-                return false;
             } finally {
                 process.destroy();
             }
-            return true;
         } catch (Exception e) {
             logger.error("转码失败");
-            return false;
         }
     }
 }
