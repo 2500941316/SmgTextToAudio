@@ -3,7 +3,6 @@ package com.smg.tools;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smg.exceptions.BusinessException;
-import com.smg.exceptions.Exceptions;
 import com.smg.pojo.TextInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +73,7 @@ public class PostUtils {
                 @Override
                 public void run() {
                     System.out.println(Thread.currentThread().getName()+"创建了");
-                    String pcmMD5FileName = System.currentTimeMillis() +".pcm";
+                    String pcmMD5FileName = Thread.currentThread().getName()+System.currentTimeMillis() +".pcm";
                     String ed = pcmMD5FileName + spd + time;
                     String key = Md5Utils.md5(ed, salt);
 
@@ -93,12 +92,10 @@ public class PostUtils {
                     } catch (JsonProcessingException e) {
                         logger.error(e.getMessage());
                     }
-
                     String res = sendPost("http://localhost:8080/textToRedio", json);
                     logger.info("文件下载地址为：" + res);
                 }
             });
-
         }
     }
 
