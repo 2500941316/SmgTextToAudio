@@ -3,6 +3,7 @@ package com.smg.tools;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smg.exceptions.BusinessException;
+import com.smg.exceptions.Exceptions;
 import com.smg.pojo.TextInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PostUtils {
     private static ObjectMapper objectMapper = new ObjectMapper();
@@ -22,7 +25,7 @@ public class PostUtils {
         throw new IllegalStateException("PostUtils class");
     }
 
-    public static void main()  {
+    public static void main() {
         String text = "程序用编程语言来写程序，最终开发的结果就是一个软件。就像大家都知道的QQ，腾讯视频，酷狗音乐等一系列软件。这些软件要想运行必须得有系统控制它吧。当然，有人会问：为什么要用操作系统呢？当然，很久以前的那些程序员确实是在没有操作环境下，编程语言是操作硬件来编写的。你可能觉得没问题，但是其实问题很严重。如果一直像以前那样会严重影响效率的。操作系统是出现在硬件之上的，是用来控制硬件的。所以，我们开发时只需要调用操作系统为我们提供的简单的接口就可以了";
         String base64Str = Base64Tool.fileToBase64(text);
         String pcmMD5FileName = "java.pcm";
@@ -31,8 +34,8 @@ public class PostUtils {
         String salt = "C6K02DUeJct3VGn7";
         String ed = pcmMD5FileName + spd + time;
         String key = Md5Utils.md5(ed, salt);
-        String vid="60030";
-        String vol="5";
+        String vid = "60030";
+        String vol = "5";
 
         TextInfo textInfo = new TextInfo();
         textInfo.setText(base64Str);
@@ -48,18 +51,60 @@ public class PostUtils {
         try {
             json = objectMapper.writeValueAsString(textInfo);
         } catch (JsonProcessingException e) {
-           logger.error(e.getMessage());
+            logger.error(e.getMessage());
         }
 
         String res = sendPost("http://localhost:8080/textToRedio", json);
-       logger.info("请求输出："+res);
+        logger.info("请求输出：" + res);
 
+    }
+
+    public static void threadsMain() {
+        String text = "程序用编程语言来写程序，最终开发的结果就是一个软件。就像大家都知道的QQ，腾讯视频，酷狗音乐等一系列软件。这些软件要想运行必须得有系统控制它吧。当然，有人会问：为什么要用操作系统呢？当然，很久以前的那些程序员确实是在没有操作环境下，编程语言是操作硬件来编写的。你可能觉得没问题，但是其实问题很严重。如果一直像以前那样会严重影响效率的";
+        final String base64Str = Base64Tool.fileToBase64(text);
+        final Integer spd = 0;
+        final String time = System.currentTimeMillis() + "";
+        final String salt = "C6K02DUeJct3VGn7";
+        final String vid = "60030";
+        final String vol = "5";
+        ExecutorService pool = Executors.newFixedThreadPool(3);
+        for (int i = 0; i < 5; i++) {
+
+            pool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    String pcmMD5FileName = System.currentTimeMillis() +".pcm";
+                    String ed = pcmMD5FileName + spd + time;
+                    String key = Md5Utils.md5(ed, salt);
+
+                    TextInfo textInfo = new TextInfo();
+                    textInfo.setText(base64Str);
+                    textInfo.setVid(vid);
+                    textInfo.setVol(vol);
+                    textInfo.setPcmMD5FileName(pcmMD5FileName);
+                    textInfo.setSpd(spd);
+                    textInfo.setDate(time);
+                    textInfo.setKey(key);
+
+                    String json = null;
+                    try {
+                        json = objectMapper.writeValueAsString(textInfo);
+                    } catch (JsonProcessingException e) {
+                        logger.error(e.getMessage());
+                    }
+
+                    String res = sendPost("http://localhost:8080/textToRedio", json);
+                    logger.info("文件下载地址为：" + res);
+                }
+            });
+
+        }
     }
 
     public static String sendPost(String url, String json) {
         PrintWriter out = null;
         BufferedReader in = null;
-        StringBuilder result=new StringBuilder();
+        StringBuilder result = new StringBuilder();
         try {
             URL realUrl = new URL(url);
             // 打开和URL之间的连接

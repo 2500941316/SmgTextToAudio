@@ -23,8 +23,12 @@ public class TextToRedioController {
     }
 
     @GetMapping("sendPost")
-    public void sendPost() throws Exception {
+    public void sendPost() {
+        PostUtils.main();
+    }
 
-         PostUtils.main();
+    @GetMapping("threadsMain")
+    public void threadsMain() {
+        PostUtils.threadsMain();
     }
 }
