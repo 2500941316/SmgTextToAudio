@@ -7,7 +7,6 @@ import com.smg.exceptions.Exceptions;
 import com.smg.pojo.Constance;
 import com.smg.pojo.TextInfo;
 import com.smg.tools.Base64Tool;
-import com.smg.tools.TestBash;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,21 +140,18 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 
         logger.info("开始转码");
         String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
-        //pcmToMp32(Constance.PCMPATH + "java.pcm");
-        TestBash testBash=new TestBash();
-        testBash.main();
-        return "success";
-//        if (pcmToMp3(pcmFile)) {
-//            logger.info("转码成功");
-//            return  Constance.downLoadPath+textInfo.getPcmMD5FileName().substring(0,textInfo.getPcmMD5FileName().lastIndexOf('.')) + ".mp3";
-//
-//        } else {
-//            throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
-//        }
+
+        if (pcmToMp3(pcmFile)) {
+            logger.info("转码成功");
+            return  Constance.downLoadPath+textInfo.getPcmMD5FileName().substring(0,textInfo.getPcmMD5FileName().lastIndexOf('.')) + ".mp3";
+        } else {
+            logger.error("转码失败");
+            throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
+        }
     }
 
 
-    private synchronized static boolean pcmToMp32(String pcmFile) {
+    private synchronized static boolean pcmToMp3(String pcmFile) {
         //先获取mp3对应的文件名称
         String mp3FileNane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + Thread.currentThread().getName() + System.currentTimeMillis() + ".mp3";
         logger.info("mp3生成地址：" + mp3FileNane);
