@@ -67,12 +67,13 @@ public class PostUtils {
         final String salt = "C6K02DUeJct3VGn7";
         final String vid = "60030";
         final String vol = "5";
-        ExecutorService pool = Executors.newFixedThreadPool(3);
-        for (int i = 0; i < 5; i++) {
+        ExecutorService pool = Executors.newFixedThreadPool(4);
+        for (int i = 0; i < 4; i++) {
 
             pool.execute(new Runnable() {
                 @Override
                 public void run() {
+                    System.out.println(Thread.currentThread().getName()+"创建了");
                     String pcmMD5FileName = System.currentTimeMillis() +".pcm";
                     String ed = pcmMD5FileName + spd + time;
                     String key = Md5Utils.md5(ed, salt);

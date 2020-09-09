@@ -22,7 +22,9 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 
     @Override
     public String textToRedio(TextInfo textInfo) {
+        logger.info("开始执行语音合成逻辑");
         mt_scylla mt = new mt_scylla();
+        logger.info("新建mt_scylla对象");
         FileOutputStream fout = null;
         BufferedOutputStream bfo = null;
         DataOutputStream out = null;
