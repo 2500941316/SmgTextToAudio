@@ -140,7 +140,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 
         logger.info("开始转码");
        // String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
-        pcmToMp3();
+        pcmToMp32();
         return "success";
 //        if (pcmToMp3(pcmFile)) {
 //            logger.info("转码成功");
@@ -149,6 +149,29 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 //        } else {
 //            throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
 //        }
+    }
+
+    public static void pcmToMp32() {
+        try {
+            String mp3FileNane ="/opt/src/products/java"+Thread.currentThread().getName()+System.currentTimeMillis()+ ".mp3";
+            String pcmToMp3 = "ffmpeg -y -f s16be -ac 1 -ar 16000 -acodec pcm_s16le -i " + "/opt/src/products/java.pcm" + " " +mp3FileNane;
+            logger.info("开始启动转码");
+            Process ps = Runtime.getRuntime().exec(pcmToMp3);
+            logger.info("转码命令生成成功");
+            ps.waitFor();
+            logger.info("刷新流");
+            BufferedReader br = new BufferedReader(new InputStreamReader(ps.getInputStream()));
+            StringBuffer sb = new StringBuffer();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+            String result = sb.toString();
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        logger.info("pcm读取成功");
     }
 
     private static void pcmToMp3() {
