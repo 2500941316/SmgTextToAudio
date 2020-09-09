@@ -102,7 +102,7 @@ public class PostUtils {
                 @Override
                 public void run() {
                     logger.info("新线程开启" + Thread.currentThread());
-                    pcmToMp3(Constance.PCMPATH + "java.mp3");
+                    pcmToMp3(Constance.PCMPATH + "java.pcm");
 
                     logger.info("转码结束");
                 }
@@ -113,7 +113,7 @@ public class PostUtils {
     public static void shellFfmpegSingleTon() {
         for (int i = 0; i < 10; i++) {
             logger.info("新线程开启" + Thread.currentThread());
-            pcmToMp3(Constance.PCMPATH + "java.mp3");
+            pcmToMp3(Constance.PCMPATH + "java.pcm");
             logger.info("转码结束");
         }
     }
@@ -167,10 +167,10 @@ public class PostUtils {
         return result.toString();
     }
 
-
     public static boolean pcmToMp3(String pcmFile) {
         //先获取mp3对应的文件名称
         String mp3FileNane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + Thread.currentThread().getName() + ".mp3";
+        logger.info("mp3生成地址："+mp3FileNane);
         String pcmToMp3 = "ffmpeg -y -f s16be -ac 1 -ar 16000 -acodec pcm_s16le -i " + pcmFile + " " + mp3FileNane;
         Process process = null;
         try {
@@ -183,7 +183,6 @@ public class PostUtils {
             }
             process.waitFor();
             try (
-
                     InputStream errorStream = process.getErrorStream();
                     InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
                     BufferedReader br = new BufferedReader(inputStreamReader)) {
