@@ -3,14 +3,12 @@ package com.smg.tools;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smg.exceptions.BusinessException;
+import com.smg.pojo.Constance;
 import com.smg.pojo.TextInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
@@ -26,40 +24,34 @@ public class PostUtils {
 
     public static void main() {
         for (int i = 0; i < 10; i++) {
+            String text = "程序用编程语言来写程序，最终开发的结果就是一个软件。就像大家都知道的QQ，腾讯视频，酷狗音乐等一系列软件。这些软件要想运行必须得有系统控制它吧。当然，有人会问：为什么要用操作系统呢？当然，很久以前的那些程序员确实是在没有操作环境下，编程语言是操作硬件来编写的。你可能觉得没问题，但是其实问题很严重。如果一直像以前那样会严重影响效率的。操作系统是出现在硬件之上的，是用来控制硬件的。所以，我们开发时只需要调用操作系统为我们提供的简单的接口就可以了";
+            String base64Str = Base64Tool.fileToBase64(text);
+            String pcmMD5FileName = "java.pcm";
+            Integer spd = 0;
+            String time = System.currentTimeMillis() + "";
+            String salt = "C6K02DUeJct3VGn7";
+            String ed = pcmMD5FileName + spd + time;
+            String key = Md5Utils.md5(ed, salt);
+            String vid = "60030";
+            String vol = "5";
 
-        String text = "程序用编程语言来写程序，最终开发的结果就是一个软件。就像大家都知道的QQ，腾讯视频，酷狗音乐等一系列软件。这些软件要想运行必须得有系统控制它吧。当然，有人会问：为什么要用操作系统呢？当然，很久以前的那些程序员确实是在没有操作环境下，编程语言是操作硬件来编写的。你可能觉得没问题，但是其实问题很严重。如果一直像以前那样会严重影响效率的。操作系统是出现在硬件之上的，是用来控制硬件的。所以，我们开发时只需要调用操作系统为我们提供的简单的接口就可以了";
-        String base64Str = Base64Tool.fileToBase64(text);
-        String pcmMD5FileName = "java.pcm";
-        Integer spd = 0;
-        String time = System.currentTimeMillis() + "";
-        String salt = "C6K02DUeJct3VGn7";
-        String ed = pcmMD5FileName + spd + time;
-        String key = Md5Utils.md5(ed, salt);
-        String vid = "60030";
-        String vol = "5";
-
-        TextInfo textInfo = new TextInfo();
-        textInfo.setText(base64Str);
-        textInfo.setVid(vid);
-        textInfo.setVol(vol);
-        textInfo.setPcmMD5FileName(pcmMD5FileName);
-        textInfo.setSpd(spd);
-        textInfo.setDate(time);
-        textInfo.setKey(key);
-
-
-        String json = null;
-        try {
-            json = objectMapper.writeValueAsString(textInfo);
-        } catch (JsonProcessingException e) {
-            logger.error(e.getMessage());
+            TextInfo textInfo = new TextInfo();
+            textInfo.setText(base64Str);
+            textInfo.setVid(vid);
+            textInfo.setVol(vol);
+            textInfo.setPcmMD5FileName(pcmMD5FileName);
+            textInfo.setSpd(spd);
+            textInfo.setDate(time);
+            textInfo.setKey(key);
+            String json = null;
+            try {
+                json = objectMapper.writeValueAsString(textInfo);
+            } catch (JsonProcessingException e) {
+                logger.error(e.getMessage());
+            }
+            String res = sendPost("http://localhost:8080/textToRedio", json);
+            logger.info("请求输出：" + res);
         }
-
-        String res = sendPost("http://localhost:8080/textToRedio", json);
-        logger.info("请求输出：" + res);
-
-        }
-
     }
 
     public static void threadsMain() {
@@ -76,8 +68,8 @@ public class PostUtils {
             pool.execute(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println(Thread.currentThread().getName()+"创建了");
-                    String pcmMD5FileName = Thread.currentThread().getName()+System.currentTimeMillis() +".pcm";
+                    System.out.println(Thread.currentThread().getName() + "创建了");
+                    String pcmMD5FileName = Thread.currentThread().getName() + System.currentTimeMillis() + ".pcm";
                     String ed = pcmMD5FileName + spd + time;
                     String key = Md5Utils.md5(ed, salt);
 
@@ -100,6 +92,31 @@ public class PostUtils {
                     logger.info("文件下载地址为：" + res);
                 }
             });
+        }
+    }
+
+    public static void shellFfmpeg() {
+        final ExecutorService pool = Executors.newCachedThreadPool();
+        for (int i = 0; i < 10; i++) {
+            pool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    logger.info("新线程开启" + Thread.currentThread());
+                    PostUtils postUtils = new PostUtils();
+                    postUtils.pcmToMp3(Constance.PCMPATH + "java.mp3");
+
+                    logger.info("转码结束");
+                }
+            });
+        }
+    }
+
+    public static void shellFfmpegSingleTon() {
+        for (int i = 0; i < 10; i++) {
+            logger.info("新线程开启" + Thread.currentThread());
+            PostUtils postUtils = new PostUtils();
+            postUtils.pcmToMp3(Constance.PCMPATH + "java.mp3");
+            logger.info("转码结束");
         }
     }
 
@@ -150,5 +167,45 @@ public class PostUtils {
             }
         }
         return result.toString();
+    }
+
+
+    public boolean pcmToMp3(String pcmFile) {
+        //先获取mp3对应的文件名称
+        String mp3FileNane = pcmFile.substring(0, pcmFile.lastIndexOf('.')) + Thread.currentThread().getName() + ".mp3";
+        String pcmToMp3 = "ffmpeg -y -f s16be -ac 1 -ar 16000 -acodec pcm_s16le -i " + pcmFile + " " + mp3FileNane;
+        Process process = null;
+        try {
+            logger.info("开始启动转码");
+            process = Runtime.getRuntime().exec(pcmToMp3);
+            logger.info("转码命令生成成功");
+
+            if (null == process) {
+                return false;
+            }
+            process.waitFor();
+            try (
+
+                    InputStream errorStream = process.getErrorStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(errorStream);
+                    BufferedReader br = new BufferedReader(inputStreamReader)) {
+                String line = null;
+                StringBuffer context = new StringBuffer();
+                logger.info("流对象生成");
+                while ((line = br.readLine()) != null) {
+                    context.append(line);
+                }
+                logger.info("pcm读取成功");
+            } catch (IOException e) {
+                logger.error("转码失败");
+                return false;
+            } finally {
+                process.destroy();
+            }
+            return true;
+        } catch (Exception e) {
+            logger.error("转码失败");
+            return false;
+        }
     }
 }

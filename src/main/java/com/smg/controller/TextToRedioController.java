@@ -31,4 +31,14 @@ public class TextToRedioController {
     public void threadsMain() {
         PostUtils.threadsMain();
     }
+
+    @GetMapping("shellFfmpegThreads")
+    public void shellFfmpeg() {
+        PostUtils.shellFfmpeg();
+    }
+
+    @GetMapping("shellFfmpegSingleTon")
+    public void shellFfmpegSingleTon() {
+        PostUtils.shellFfmpegSingleTon();
+    }
 }
