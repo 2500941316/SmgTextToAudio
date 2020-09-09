@@ -8,6 +8,7 @@ public class TestBash {
     public static void main() {
         try {
             String bashCommand = "sh  /opt/src/ffmpeg.sh";
+            Thread.sleep(1000);
             Runtime runtime = Runtime.getRuntime();
             Process pro = runtime.exec(bashCommand);
             int status = pro.waitFor();
