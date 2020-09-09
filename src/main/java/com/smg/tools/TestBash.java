@@ -23,6 +23,7 @@ public class TestBash {
             }
             String result = strbr.toString();
             System.out.println(result);
+            System.out.println("success!!!");
 
         } catch (IOException | InterruptedException ec) {
             ec.printStackTrace();
