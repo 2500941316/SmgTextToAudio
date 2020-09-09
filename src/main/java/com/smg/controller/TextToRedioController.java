@@ -22,11 +22,6 @@ public class TextToRedioController {
         return textToRedioInterface.textToRedio(textInfo);
     }
 
-    @GetMapping("sendPost")
-    public void sendPost() {
-        PostUtils.main();
-    }
-
     @GetMapping("threadsMain")
     public void threadsMain() {
         PostUtils.threadsMain();
@@ -37,8 +32,4 @@ public class TextToRedioController {
         PostUtils.shellFfmpeg();
     }
 
-    @GetMapping("shellFfmpegSingleTon")
-    public void shellFfmpegSingleTon() {
-        PostUtils.shellFfmpegSingleTon();
-    }
 }
