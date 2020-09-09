@@ -1,6 +1,7 @@
 package com.smg.service;
 
 import com.iflytek.mt_scylla.mt_scylla;
+import com.smg.controller.Test;
 import com.smg.exceptions.BusinessException;
 import com.smg.exceptions.ExceptionAdvice;
 import com.smg.exceptions.Exceptions;
@@ -140,14 +141,15 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 
         logger.info("开始转码");
         String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
-
-        if (pcmToMp3(pcmFile)) {
-            logger.info("转码成功");
-            return  Constance.downLoadPath+textInfo.getPcmMD5FileName().substring(0,textInfo.getPcmMD5FileName().lastIndexOf('.')) + ".mp3";
-        } else {
-            logger.error("转码失败");
-            throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
-        }
+        Test.main();
+        return "success";
+//        if (pcmToMp3(pcmFile)) {
+//            logger.info("转码成功");
+//            return  Constance.downLoadPath+textInfo.getPcmMD5FileName().substring(0,textInfo.getPcmMD5FileName().lastIndexOf('.')) + ".mp3";
+//        } else {
+//            logger.error("转码失败");
+//            throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
+//        }
     }
 
 
