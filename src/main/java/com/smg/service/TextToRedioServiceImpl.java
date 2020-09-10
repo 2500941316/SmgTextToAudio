@@ -27,7 +27,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 
     @Override
     public String textToRedio(TextInfo textInfo) {
-        mt_scylla  mt = new mt_scylla();
+        mt_scylla mt = new mt_scylla();
         logger.info("开始执行语音合成逻辑");
         FileOutputStream fout = null;
         BufferedOutputStream bfo = null;
@@ -135,22 +135,23 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         }
 
         logger.info("任务结束成功");
-//        // 逆初始化
-//        int uniret = mt.SCYMTUninitializeEx(null);
-//        if (uniret != 0) {
-//            throw new BusinessException(Exceptions.SERVER_UNINITIALIZEEX_ERROR.getEmsg());
-//        }
-//        logger.info("逆初始化成功");
 
         logger.info("开始转码");
         String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
         if (pcmToMp3(pcmFile)) {
             logger.info("转码成功");
+            //        // 逆初始化
+            int uniret = mt.SCYMTUninitializeEx(null);
+            if (uniret != 0) {
+                throw new BusinessException(Exceptions.SERVER_UNINITIALIZEEX_ERROR.getEmsg());
+            }
+            logger.info("逆初始化成功");
             return Constance.downLoadPath + textInfo.getPcmMD5FileName().substring(0, textInfo.getPcmMD5FileName().lastIndexOf('.')) + ".mp3";
         } else {
             logger.error("转码失败");
             throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
         }
+
     }
 
 
