@@ -48,11 +48,17 @@
             <artifactId>commons-codec</artifactId>
             <version>1.11</version>
         </dependency>
-
         <dependency>
             <groupId>net.bramp.ffmpeg</groupId>
             <artifactId>ffmpeg</artifactId>
             <version>0.6.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>2.0.0</version>
         </dependency>
 
     </dependencies>
@@ -77,9 +83,7 @@
     </pluginRepositories>
 
     <build>
-
         <plugins>
-
             <!-- 指定启动类，将依赖打成外部jar包 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -140,14 +140,15 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 
         logger.info("开始转码");
         String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
-
-        if (pcmToMp3(pcmFile)) {
-            logger.info("转码成功");
-            return  Constance.downLoadPath+textInfo.getPcmMD5FileName().substring(0,textInfo.getPcmMD5FileName().lastIndexOf('.')) + ".mp3";
-        } else {
-            logger.error("转码失败");
-            throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
-        }
+        TestJar.main();
+        return "success";
+//        if (pcmToMp3(pcmFile)) {
+//            logger.info("转码成功");
+//            return  Constance.downLoadPath+textInfo.getPcmMD5FileName().substring(0,textInfo.getPcmMD5FileName().lastIndexOf('.')) + ".mp3";
+//        } else {
+//            logger.error("转码失败");
+//            throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
+//        }
     }
 
 
@@ -188,6 +189,9 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         } catch (Exception e) {
             logger.error("转码失败");
             return false;
+        }finally {
+            if (process != null)
+            process.destroy();
         }
     }
 }

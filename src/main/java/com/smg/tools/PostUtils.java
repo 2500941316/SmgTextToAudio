@@ -3,7 +3,6 @@ package com.smg.tools;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smg.exceptions.BusinessException;
-import com.smg.pojo.Constance;
 import com.smg.pojo.TextInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 
 public class PostUtils {
     private static ObjectMapper objectMapper = new ObjectMapper();
