@@ -26,7 +26,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 //    }
 
     @Override
-    public String textToRedio(TextInfo textInfo) {
+    public synchronized String textToRedio(TextInfo textInfo) {
         mt_scylla mt = new mt_scylla();
         logger.info("开始执行语音合成逻辑");
         FileOutputStream fout = null;
