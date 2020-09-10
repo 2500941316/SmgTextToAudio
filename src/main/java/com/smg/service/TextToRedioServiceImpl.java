@@ -18,13 +18,14 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class TextToRedioServiceImpl implements TextToRedioInterface {
 
-    public static final Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
+
+    private static mt_scylla mt = new mt_scylla();
 
     @Override
     public String textToRedio(TextInfo textInfo) {
         logger.info("开始执行语音合成逻辑");
-        mt_scylla mt = new mt_scylla();
-        logger.info("新建mt_scylla对象");
+       // logger.info("新建mt_scylla对象");
         FileOutputStream fout = null;
         BufferedOutputStream bfo = null;
         DataOutputStream out = null;
@@ -41,7 +42,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         mt.SCYMTAuthLogin(parL, null);
         logger.info("login成功");
 
-        String ssbparam = "vid="+textInfo.getVid()+",auf=4,aue=raw,svc=tts,type=1,uid=660Y5r,appid=pc20onli,url=" + inputIp;
+        String ssbparam = "vid=" + textInfo.getVid() + ",auf=4,aue=raw,svc=tts,type=1,uid=660Y5r,appid=pc20onli,url=" + inputIp;
         int[] errorCode = new int[1];
         String sessionId = mt.SCYMTSessionBeginEx(ssbparam, errorCode, null);
         if (errorCode[0] != 0) {
@@ -64,7 +65,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         if (ifSet) {
             int[] errcode = new int[1];
             byte[] reason = new byte[100];
-            String params = "spd=" + textInfo.getSpd()+",vol="+textInfo.getVol();
+            String params = "spd=" + textInfo.getSpd() + ",vol=" + textInfo.getVol();
             int ret = mt.SCYTTSSetParams(sessionId, params, errcode, reason);
             if (0 != ret) {
                 throw new BusinessException(Exceptions.SERVER_PARAMSETTING_ERROR.getEcode());
@@ -131,18 +132,18 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         }
 
         logger.info("任务结束成功");
-        // 逆初始化
-        int uniret = mt.SCYMTUninitializeEx(null);
-        if (uniret != 0) {
-            throw new BusinessException(Exceptions.SERVER_UNINITIALIZEEX_ERROR.getEmsg());
-        }
-        logger.info("逆初始化成功");
+//        // 逆初始化
+//        int uniret = mt.SCYMTUninitializeEx(null);
+//        if (uniret != 0) {
+//            throw new BusinessException(Exceptions.SERVER_UNINITIALIZEEX_ERROR.getEmsg());
+//        }
+//        logger.info("逆初始化成功");
 
         logger.info("开始转码");
         String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
         if (pcmToMp3(pcmFile)) {
             logger.info("转码成功");
-            return  Constance.downLoadPath+textInfo.getPcmMD5FileName().substring(0,textInfo.getPcmMD5FileName().lastIndexOf('.')) + ".mp3";
+            return Constance.downLoadPath + textInfo.getPcmMD5FileName().substring(0, textInfo.getPcmMD5FileName().lastIndexOf('.')) + ".mp3";
         } else {
             logger.error("转码失败");
             throw new BusinessException(Exceptions.SERVER_FFMPEG_ERROR.getEmsg());
@@ -158,8 +159,7 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         Process process = null;
         try {
             logger.info("开始启动转码");
-            synchronized (this)
-            {
+            synchronized (this) {
                 process = Runtime.getRuntime().exec(pcmToMp3);
                 logger.info("转码命令生成成功");
 
@@ -187,9 +187,9 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         } catch (Exception e) {
             logger.error("转码失败");
             return false;
-        }finally {
+        } finally {
             if (process != null)
-            process.destroy();
+                process.destroy();
         }
     }
 }
