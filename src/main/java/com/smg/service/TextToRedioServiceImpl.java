@@ -20,13 +20,13 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
 
     private static final Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
 
-
+    private static mt_scylla mt = new mt_scylla();
 
     @Override
     public String textToRedio(TextInfo textInfo) {
         logger.info("开始执行语音合成逻辑");
        // logger.info("新建mt_scylla对象");
-        mt_scylla mt = new mt_scylla();
+
         FileOutputStream fout = null;
         BufferedOutputStream bfo = null;
         DataOutputStream out = null;
@@ -133,12 +133,12 @@ public class TextToRedioServiceImpl implements TextToRedioInterface {
         }
 
         logger.info("任务结束成功");
-//        // 逆初始化
-//        int uniret = mt.SCYMTUninitializeEx(null);
-//        if (uniret != 0) {
-//            throw new BusinessException(Exceptions.SERVER_UNINITIALIZEEX_ERROR.getEmsg());
-//        }
-//        logger.info("逆初始化成功");
+        // 逆初始化
+        int uniret = mt.SCYMTUninitializeEx(null);
+        if (uniret != 0) {
+            throw new BusinessException(Exceptions.SERVER_UNINITIALIZEEX_ERROR.getEmsg());
+        }
+        logger.info("逆初始化成功");
 
         logger.info("开始转码");
         String pcmFile = Constance.PCMPATH + textInfo.getPcmMD5FileName();
