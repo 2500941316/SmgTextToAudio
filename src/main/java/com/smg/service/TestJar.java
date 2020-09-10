@@ -10,7 +10,7 @@ import net.bramp.ffmpeg.builder.FFmpegBuilder;
 public class TestJar {
     public static void main() {
         try {
-            FFmpeg fFmpeg = new FFmpeg("/usr/local/bin/ffmpeg");
+            FFmpeg fFmpeg = new FFmpeg("D:\\springsource\\ffmpeg-4.2-win64-static\\bin\\ffmpeg.exe");
             FFmpegBuilder builder = new FFmpegBuilder()
                     .setInput("/opt/src/products/old.mp3")
                     .overrideOutputFiles(true)
@@ -20,7 +20,12 @@ public class TestJar {
             executor.createJob(builder).run();
         }catch (Exception e)
         {
-            throw new BusinessException(Exceptions.SERVER_OTHER_ERROR.getEcode());
+           e.printStackTrace();
+
         }
+    }
+
+    public static void main(String[] args) {
+        main();
     }
 }
