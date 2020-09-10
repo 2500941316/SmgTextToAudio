@@ -19,14 +19,17 @@ import java.nio.charset.StandardCharsets;
 public class TextToRedioServiceImpl implements TextToRedioInterface {
 
     private static final Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
+    private static mt_scylla mt;
+    static {
+       mt = new mt_scylla();
+        logger.info("mt新建了连接！！！！！！！！！");
+    }
 
-    private static mt_scylla mt = new mt_scylla();
+
 
     @Override
     public String textToRedio(TextInfo textInfo) {
         logger.info("开始执行语音合成逻辑");
-       // logger.info("新建mt_scylla对象");
-
         FileOutputStream fout = null;
         BufferedOutputStream bfo = null;
         DataOutputStream out = null;
