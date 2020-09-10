@@ -34,7 +34,7 @@ public class PostUtils {
                 @Override
                 public void run() {
                     System.out.println(Thread.currentThread().getName() + "创建了");
-                    String pcmMD5FileName = Thread.currentThread().getName() + System.currentTimeMillis() + ".pcm";
+                    String pcmMD5FileName = "java-"+Thread.currentThread().getName() + System.currentTimeMillis() + ".pcm";
                     String ed = pcmMD5FileName + spd + time;
                     String key = Md5Utils.md5(ed, salt);
 
