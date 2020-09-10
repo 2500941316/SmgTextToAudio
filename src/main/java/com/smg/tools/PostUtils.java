@@ -30,9 +30,9 @@ public class PostUtils {
         final String vol = "5";
 
         for (int i = 0; i < 6; i++) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+       //     new Thread(new Runnable() {
+              //  @Override
+             //   public void run() {
                     System.out.println(Thread.currentThread().getName() + "创建了");
                     String pcmMD5FileName = Thread.currentThread().getName() + System.currentTimeMillis() + ".pcm";
                     String ed = pcmMD5FileName + spd + time;
@@ -55,8 +55,8 @@ public class PostUtils {
                     }
                     String res = sendPost("http://localhost:8080/textToRedio", json);
                     logger.info("文件下载地址为：" + res);
-                }
-            }).start();
+          //     }
+        //    }).start();
         }
     }
 
