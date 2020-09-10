@@ -20,6 +20,7 @@ public class TestJar {
             executor.createJob(builder).run();
         }catch (Exception e)
         {
+            e.printStackTrace();
             throw new BusinessException(Exceptions.SERVER_OTHER_ERROR.getEcode());
         }
     }
